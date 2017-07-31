@@ -1,0 +1,264 @@
+﻿<Window x:Name="gameWindow" x:Class="TicTacToe.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Tic Tac Toe" Height="410" Width="550" ResizeMode="CanMinimize" Background="#FFCCCCCC">
+    <Grid x:Name="grid_main">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu x:Name="mnu_top" Grid.ColumnSpan="8" HorizontalAlignment="Left" Height="25" Grid.RowSpan="2" VerticalAlignment="Top" Width="544">
+            <MenuItem x:Name="mnu_file" Header="File">
+                <MenuItem x:Name="mnu_reset" Header="Reset" IsEnabled="False" Click="mnu_reset_Click"/>
+                <MenuItem x:Name="mnu_coinToss" Header="Coin Toss" IsEnabled="False" Click="mnu_coinToss_Click"/>
+                <MenuItem x:Name="mnu_exit" Header="Exit" Click="ExitGame"/>
+            </MenuItem>
+            <MenuItem x:Name="mnu_settings" Header="Settings">
+                <RadioButton x:Name="mnu_playComputer" Content="Play Computer" Checked="mnu_playComputer_Checked"/>
+                <RadioButton x:Name="mnu_twoPlayers" Content="Two Players" Checked="mnu_twoPlayers_Checked"/>
+            </MenuItem>
+            <MenuItem x:Name="mnu_help" Header="Help">
+                <MenuItem x:Name="mnu_howToPlay" Header="How to Play" Click="mnu_howToPlay_Click"/>
+            </MenuItem>
+        </Menu>
+        <GroupBox x:Name="grpBox_gameMode" Grid.Column="7" Header="Mode" HorizontalAlignment="Left" Margin="0.2,4.8,0,0" Grid.Row="6" VerticalAlignment="Top" Height="85" Width="140">
+            <Grid HorizontalAlignment="Left" Height="75" Margin="0,0,-2,-12.6" VerticalAlignment="Top" Width="130">
+                <RadioButton x:Name="radioBtn_playComputer" Content="Play Computer" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="radioBtn_playComputer_Checked"/>
+                <RadioButton x:Name="radioBtn_twoPlayers" Content="Two Players" HorizontalAlignment="Left" Margin="10,26,0,0" VerticalAlignment="Top" Checked="radioBtn_twoPlayers_Checked"/>
+            </Grid>
+        </GroupBox>
+        <Label x:Name="lbl_playerTurn" Content="" Grid.Column="7" HorizontalAlignment="Left" Margin="10,10.4,0,0" Grid.Row="2" VerticalAlignment="Top" Height="33" Width="130" FontSize="16"/>
+        <Button x:Name="btn_reset" Content="Reset" Grid.Column="7" HorizontalAlignment="Left" Margin="10,41.6,0,0" Grid.Row="4" VerticalAlignment="Top" Width="75" IsEnabled="False" Click="btn_reset_Click"/>
+        <Button x:Name="btn_coinToss" Content="Coin Toss" Grid.Column="7" HorizontalAlignment="Left" Margin="10,68.6,0,0" Grid.Row="4" VerticalAlignment="Top" Width="75" Click="btn_coinToss_Click" IsEnabled="False"/>
+        <Rectangle x:Name="rect_hashLeftVertical" Grid.ColumnSpan="2" Grid.Column="2" Fill="White" HorizontalAlignment="Left" Height="309" Margin="0.2,0.4,0,0" Grid.Row="2" Grid.RowSpan="5" VerticalAlignment="Top" Width="5"/>
+        <Rectangle x:Name="rect_hashRightVertical" Grid.Column="4" Fill="White" HorizontalAlignment="Left" Height="309" Margin="0.4,0.4,0,0" Grid.Row="2" Grid.RowSpan="5" VerticalAlignment="Top" Width="5" Grid.ColumnSpan="2"/>
+        <Rectangle x:Name="rect_hashTopHorizontal" Grid.ColumnSpan="5" Grid.Column="1" Fill="White" HorizontalAlignment="Left" Height="5" Margin="0.2,0.4,0,0" Grid.Row="3" VerticalAlignment="Top" Width="309"/>
+        <Rectangle x:Name="rect_hashBottomHorizontal" Grid.ColumnSpan="5" Fill="White" HorizontalAlignment="Left" Height="5" Margin="0.2,99.6,0,0" Grid.Row="4" Grid.RowSpan="2" VerticalAlignment="Top" Width="309" Grid.Column="1"/>
+        <Label x:Name="lbl_player1TurnInfo" Content="Player 1 = O" Grid.Column="7" HorizontalAlignment="Left" Margin="10,48.4,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <Canvas x:Name="canvas_topRowMidCol" Grid.ColumnSpan="2" Grid.Column="3" HorizontalAlignment="Left" Height="100" Margin="0.4,0.4,0,0" Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Top" Width="100" Background="#FFCCCCCC" MouseEnter="canvas_MouseEnter" MouseLeave="canvas_MouseLeave" MouseLeftButtonDown="canvas_topRowMidCol_MouseLeftButtonDown">
+            <Rectangle x:Name="xLineLeft_topRowMidCol" Height="75" Canvas.Left="45" StrokeThickness="5" Canvas.Top="10" Width="5" Fill="White" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Rectangle x:Name="xLineRight_topRowMidCol" Fill="White" Height="75" Canvas.Left="45" Canvas.Top="10" Width="5" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Ellipse x:Name="oEllipse_topRowMidCol" Height="75" Canvas.Left="10" Stroke="White" Canvas.Top="15" Width="75" StrokeThickness="5"/>
+        </Canvas>
+        <Canvas x:Name="canvas_topRowRightCol" Grid.ColumnSpan="2" Grid.Column="5" HorizontalAlignment="Left" Height="100" Margin="0.6,0.4,0,0" Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Top" Width="100" Background="#FFCCCCCC" MouseEnter="canvas_MouseEnter" MouseLeave="canvas_MouseLeave" MouseLeftButtonDown="canvas_topRowRightCol_MouseLeftButtonDown">
+            <Rectangle x:Name="xLineLeft_topRowRightCol" Fill="White" Height="75" Canvas.Left="45" StrokeThickness="5" Canvas.Top="10" Width="5" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Rectangle x:Name="xLineRight_topRowRightCol" Fill="White" Height="75" Canvas.Left="45" StrokeThickness="5" Canvas.Top="10" Width="5" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Ellipse x:Name="oEllipse_topRowRightCol" Height="75" Canvas.Left="10" Stroke="White" StrokeThickness="5" Canvas.Top="15" Width="75"/>
+        </Canvas>
+        <Canvas x:Name="canvas_midRowLeftCol" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="100" Margin="0.2,0.6,0,0" Grid.Row="4" Grid.RowSpan="2" VerticalAlignment="Top" Width="100" Grid.Column="1" MouseEnter="canvas_MouseEnter" MouseLeave="canvas_MouseLeave" Background="#FFCCCCCC" MouseLeftButtonDown="canvas_midRowLeftCol_MouseLeftButtonDown">
+            <Rectangle x:Name="xLineLeft_midRowLeftCol" Fill="White" Height="75" Canvas.Left="45" StrokeThickness="5" Canvas.Top="10" Width="5" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Rectangle x:Name="xLineRight_midRowLeftCol" Fill="White" Height="75" Canvas.Left="45" StrokeThickness="5" Canvas.Top="10" Width="5" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Ellipse x:Name="oEllipse_midRowLeftCol" Height="75" Canvas.Left="10" Stroke="White" StrokeThickness="5" Canvas.Top="15" Width="75"/>
+        </Canvas>
+        <Canvas x:Name="canvas_midRowMidCol" Grid.ColumnSpan="2" Grid.Column="3" HorizontalAlignment="Left" Height="100" Margin="0.4,4.4,0,0" Grid.Row="3" Grid.RowSpan="2" VerticalAlignment="Top" Width="100" MouseEnter="canvas_MouseEnter" MouseLeave="canvas_MouseLeave" Background="#FFCCCCCC" MouseLeftButtonDown="canvas_midRowMidCol_MouseLeftButtonDown">
+            <Rectangle x:Name="xLineLeft_midRowMidCol" Fill="White" Height="75" Canvas.Left="45" StrokeThickness="5" Canvas.Top="10" Width="5" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Rectangle x:Name="xLineRight_midRowMidCol" Fill="White" Height="75" Canvas.Left="45" StrokeThickness="5" Canvas.Top="10" Width="5" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Ellipse x:Name="oEllipse_midRowMidCol" Height="75" Canvas.Left="10" Stroke="White" StrokeThickness="5" Canvas.Top="15" Width="75"/>
+        </Canvas>
+        <Canvas x:Name="canvas_midRowRightCol" Grid.ColumnSpan="2" Grid.Column="5" HorizontalAlignment="Left" Height="100" Margin="0.6,4.4,0,0" Grid.Row="3" Grid.RowSpan="2" VerticalAlignment="Top" Width="100" MouseEnter="canvas_MouseEnter" MouseLeave="canvas_MouseLeave" Background="#FFCCCCCC" MouseLeftButtonDown="canvas_midRowRightCol_MouseLeftButtonDown">
+            <Rectangle x:Name="xLineLeft_midRowRightCol" Fill="White" Height="75" Canvas.Left="45" StrokeThickness="5" Canvas.Top="10" Width="5" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Rectangle x:Name="xLineRight_midRowRightCol" Fill="White" Height="75" Canvas.Left="45" StrokeThickness="5" Canvas.Top="10" Width="5" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Ellipse x:Name="oEllipse_midRowRightCol" Height="75" Canvas.Left="10" Stroke="White" StrokeThickness="5" Canvas.Top="15" Width="75"/>
+        </Canvas>
+        <Canvas x:Name="canvas_botRowLeftCol" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Left" Height="100" Margin="0.2,4.6,0,0" Grid.Row="5" Grid.RowSpan="2" VerticalAlignment="Top" Width="100" MouseEnter="canvas_MouseEnter" MouseLeave="canvas_MouseLeave" Background="#FFCCCCCC" MouseLeftButtonDown="canvas_botRowLeftCol_MouseLeftButtonDown">
+            <Rectangle x:Name="xLineLeft_botRowLeftCol" Fill="White" Height="75" Canvas.Left="45" StrokeThickness="5" Canvas.Top="10" Width="5" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Rectangle x:Name="xLineRight_botRowLeftCol" Fill="White" Height="75" Canvas.Left="45" StrokeThickness="5" Canvas.Top="10" Width="5" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Ellipse x:Name="oEllipse_botRowLeftCol" Height="75" Canvas.Left="10" Stroke="White" StrokeThickness="5" Canvas.Top="15" Width="75"/>
+        </Canvas>
+        <Canvas x:Name="canvas_botRowMidCol" Grid.ColumnSpan="2" Grid.Column="3" HorizontalAlignment="Left" Height="100" Margin="0.4,4.6,0,0" Grid.Row="5" Grid.RowSpan="2" VerticalAlignment="Top" Width="100" MouseEnter="canvas_MouseEnter" MouseLeave="canvas_MouseLeave" Background="#FFCCCCCC" MouseLeftButtonDown="canvas_botRowMidCol_MouseLeftButtonDown">
+            <Rectangle x:Name="xLineLeft_botRowMidCol" Fill="White" Height="75" Canvas.Left="45" StrokeThickness="5" Canvas.Top="10" Width="5" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Rectangle x:Name="xLineRight_botRowMidCol" Fill="White" Height="75" Canvas.Left="45" StrokeThickness="5" Canvas.Top="10" Width="5" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Ellipse x:Name="oEllipse_botRowMidCol" Height="75" Canvas.Left="10" Stroke="White" StrokeThickness="5" Canvas.Top="15" Width="75"/>
+        </Canvas>
+        <Canvas x:Name="canvas_botRowRightCol" Grid.ColumnSpan="2" Grid.Column="5" HorizontalAlignment="Left" Height="100" Margin="0.6,4.6,0,0" Grid.Row="5" Grid.RowSpan="2" VerticalAlignment="Top" Width="100" MouseEnter="canvas_MouseEnter" MouseLeave="canvas_MouseLeave" Background="#FFCCCCCC" MouseLeftButtonDown="canvas_botRowRightCol_MouseLeftButtonDown">
+            <Rectangle x:Name="xLineLeft_botRowRightCol" Fill="White" Height="75" Canvas.Left="45" StrokeThickness="5" Canvas.Top="10" Width="5" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Rectangle x:Name="xLineRight_botRowRightCol" Fill="White" Height="75" Canvas.Left="45" StrokeThickness="5" Canvas.Top="10" Width="5" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Ellipse x:Name="oEllipse_botRowRightCol" Height="75" Canvas.Left="10" Stroke="White" StrokeThickness="5" Canvas.Top="15" Width="75"/>
+        </Canvas>
+        <Canvas x:Name="canvas_topRowLeftCol" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="100" Margin="0.2,0.4,0,0" Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Top" Width="100" Grid.Column="1" MouseEnter="canvas_MouseEnter" MouseLeave="canvas_MouseLeave" Background="#FFCCCCCC" MouseLeftButtonDown="canvas_topRowLeftCol_MouseLeftButtonDown">
+            <Rectangle x:Name="xLineLeft_topRowLeftCol" Fill="White" Height="75" Canvas.Left="45" Canvas.Top="10" Width="5" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Rectangle x:Name="xLineRight_topRowLeftCol" Fill="White" Height="75" Canvas.Left="45" Canvas.Top="10" Width="5" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Ellipse x:Name="oEllipse_topRowLeftCol" Height="75" Canvas.Left="10" Stroke="White" Canvas.Top="15" Width="75" StrokeThickness="5"/>
+        </Canvas>
+        <Label x:Name="lbl_player2TurnInfo" Content="Player 2 = X" Grid.Column="7" HorizontalAlignment="Left" Margin="10,68.4,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>
